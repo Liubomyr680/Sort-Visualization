@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="loginPage.css">
+</head>
+<body>
+<div class="matrix-container">
+    <div class="symbol">0</div>
+    <div class="symbol">1</div>
+</div>
+<div class="login-container">
+    <h2>Follow the white rabbit</h2>
+    <form id="loginForm" action="/authenticate" method="post">
+        <div class="input-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div class="button-group">
+            <button type="submit">Login</button>
+            <button type="button" onclick="window.location.href='/register'">Register</button>
+        </div>
+        <div th:if="${param.error != null}" class="error-message">Incorrect username or password. Please try again.</div>
+    </form>
+</div>
+<script src="/js/matrixAnimation.js"></script>
+<script>
+
+    document.getElementById("loginForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const form = document.getElementById("loginForm"); // Збережіть посилання на форму
+
+        try {
+            const response = await fetch("/authenticate", {
+                method: "POST",
+                body: new FormData(form), // Використовуйте форму для створення FormData
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const token = data.accessToken;
+                localStorage.setItem("token", token);
+                console.log("token saved: " + token);
+
+                // Створення заголовків з токеном доступу
+                const headers = new Headers();
+                headers.append("Authorization", `Bearer ${token}`);
+                console.log("Headers added");
+
+                // Створення запиту GET до /sort
+                const request = new Request("/sort", {
+                    method: "GET",
+                    headers,
+                });
+                console.log("Request created");
+
+                // Відправка запиту на сервер
+                const sortResponse = await fetch(request);
+                console.log("finished fetch request");
+
+                if (sortResponse.ok) {
+                    console.log(sortResponse.ok)
+                    // Перенаправлення на сторінку /sort
+                    window.location.href = "/sort";
+                } else {
+                    // Невалідний токен або помилка під час перевірки
+                    console.error("Invalid token or error checking token");
+                }
+            } else {
+                // Помилка аутентифікації
+                console.error("Authentication failed");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    });
+
+    // document.getElementById("loginForm").addEventListener("submit", function (event) {
+    //     event.preventDefault();
+    //
+    //     fetch('/authenticate', {
+    //         method: 'POST',
+    //         body: new FormData(this),
+    //     })
+    //         .then(response => {
+    //             if (response.ok) {
+    //                 console.log("Still working")
+    //                 // If the response is OK (HTTP status code 200), parse the JSON body
+    //                 return response.json();
+    //             } else {
+    //                 // If the response is not OK, throw an error with the status text
+    //                 throw new Error(response.statusText);
+    //             }
+    //         })
+    //         .then(data => {
+    //             const token = data.accessToken;
+    //             console.log(token)
+    //             if (token) {
+    //                 localStorage.setItem("token", token);
+    //
+    //                 // Створення об'єкту заголовків для відправки разом із запитом
+    //                 const headers = new Headers();
+    //                 headers.append('Authorization', 'Bearer ' + token);
+    //
+    //                 // Створення об'єкту запиту
+    //                 const request = new Request('/sort', {
+    //                     method: 'GET', // Метод запиту
+    //                     headers: headers // Додавання заголовків до запиту
+    //                 });
+    //                 console.log("token already in header")
+    //
+    //                 // Відправка запиту на сервер
+    //                 fetch(request)
+    //                     .then(response => {
+    //                         console.log("We are in response loop")
+    //                         if (response.ok) {
+    //                             console.log("Ready to redirect!")
+    //                             // Валідний токен, перенаправлення користувача
+    //                             window.location.href = '/sort';
+    //                         } else {
+    //                             // Невалідний токен або помилка перевірки
+    //                             console.error('Invalid token or error checking token');
+    //                         }
+    //                     })
+    //                     .catch(error => console.error('Error:', error));
+    //             }
+    //
+    //         })
+    //         .catch(error => {
+    //             // Handle any errors that occurred during the fetch call
+    //             console.error('Error:', error);
+    //         });
+    // });
+
+    // document.getElementById("loginForm").addEventListener("submit", function(event) {
+    //     event.preventDefault();
+    //
+    //     fetch('/authenticate', {
+    //         method: 'POST',
+    //         body: new FormData(this),
+    //     })
+    //         .then(response => {
+    //             if (response.ok) {
+    //                 console.log("Still working")
+    //                 // If the response is OK (HTTP status code 200), parse the JSON body
+    //                 return response.json();
+    //             } else {
+    //                 // If the response is not OK, throw an error with the status text
+    //                 throw new Error(response.statusText);
+    //             }
+    //         })
+    //         .then(data => {
+    //             const token = data.accessToken;
+    //             console.log(token)
+    //             if(token){
+    //                 localStorage.setItem("token", token);
+    //
+    //                 // Redirect to the next page
+    //                 window.location.href = "/sort";
+    //             }
+    //
+    //         })
+    //         .catch(error => {
+    //             // Handle any errors that occurred during the fetch call
+    //             console.error('Error:', error);
+    //         });
+    // });
+
+</script>
+</body>
+</html>

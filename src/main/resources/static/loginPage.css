@@ -1,0 +1,197 @@
+/*body {*/
+/*    font-family: Arial, sans-serif;*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    background-color: #f0f0f0;*/
+/*}*/
+
+/*.login-container {*/
+/*    width: 300px;*/
+/*    margin: 100px auto;*/
+/*    padding: 20px;*/
+/*    background-color: #fff;*/
+/*    border-radius: 5px;*/
+/*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/*h2 {*/
+/*    text-align: center;*/
+/*    margin-bottom: 20px;*/
+/*}*/
+
+/*.input-group {*/
+/*    margin-bottom: 15px;*/
+/*}*/
+
+/*.input-group label {*/
+/*    display: block;*/
+/*    margin-bottom: 5px;*/
+/*}*/
+
+/*.input-group input {*/
+/*    width: 100%;*/
+/*    padding: 8px;*/
+/*    border-radius: 5px;*/
+/*    border: 1px solid #ccc;*/
+/*}*/
+
+/*.button-group {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*}*/
+
+/*button {*/
+/*    width: 45%;*/
+/*    padding: 10px;*/
+/*    background-color: #007bff;*/
+/*    color: #fff;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*button:hover {*/
+/*    background-color: #0056b3;*/
+/*}*/
+
+/*.pulse {*/
+/*    width: 150px; !* Збільшуємо ширину кнопки *!*/
+/*    height: 50px;*/
+/*    background-color: #3498db;*/
+/*    border-radius: 10px; !* Заокругленість кутів *!*/
+/*    animation: pulseAnimation 1s infinite alternate;*/
+/*}*/
+
+/*@keyframes pulseAnimation {*/
+/*    0% {*/
+/*        transform: scale(1);*/
+/*    }*/
+/*    100% {*/
+/*        transform: scale(1.1);*/
+/*    }*/
+/*}*/
+
+/*#matrix {*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    overflow: hidden;*/
+/*    pointer-events: none;*/
+/*}*/
+
+/*.symbol {*/
+/*    color: lime;*/
+/*    font-family: "Courier New", Courier, monospace;*/
+/*    font-size: 20px;*/
+/*    position: absolute;*/
+/*    animation: fall 5s linear infinite;*/
+/*}*/
+
+/*@keyframes fall {*/
+/*    0% { transform: translateY(-100px); }*/
+/*    100% { transform: translateY(100vh); }*/
+/*}*/
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    background-color: #000; /* Чорний колір фону */
+}
+
+.matrix-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.symbol {
+    position: absolute;
+    color: lime;
+    font-size: 16px;
+    animation: fall 5s linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10%);
+        color: black;
+    }
+    100% {
+        transform: translateY(100vh);
+        color: lime;
+    }
+}
+
+.login-container {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff; /* Білий колір тексту */
+    z-index: 1;
+
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #fff; /* Білий колір тексту */
+    animation: pulse 1.5s infinite alternate; /* Пульсація кольору */
+}
+
+@keyframes pulse {
+    0% {
+        color: #000; /* Початковий колір */
+        border-color: #000; /* Початковий колір рамки */
+    }
+    100% {
+        color: #fff; /* Кінцевий колір */
+        border-color: #fff; /* Кінцевий колір рамки */
+    }
+}
+
+.input-group input {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid transparent; /* Транспарентна рамка */
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1); /* Колір фону з прозорістю */
+    color: #fff; /* Білий колір тексту */
+}
+
+.input-group input:focus {
+    outline: none;
+}
+
+.button-group button {
+    padding: 10px 20px;
+    border: 2px solid lime; /* Колір рамки */
+    border-radius: 5px;
+    background-color: transparent; /* Прозорий фон */
+    color: lime; /* Колір тексту */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Плавна анімація зміни стилів */
+}
+
+.button-group button:hover {
+    background-color: lime; /* Колір фону при наведенні */
+    color: #000; /* Колір тексту при наведенні */
+
+}

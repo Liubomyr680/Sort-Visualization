@@ -1,0 +1,62 @@
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Merge Sort Visualization</title>-->
+<!--    <link rel="stylesheet" href="sortVisualization.css">-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container">-->
+<!--    <div id="array"></div>-->
+<!--    <button id="startVisualizationButton" onclick="mergeSortVis()">Start Visualization</button>-->
+<!--</div>-->
+<!--<script src="/mergeSort.js"></script>-->
+<!--</body>-->
+<!--</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Візуалізація алгоритму сортування злиттям</title>
+    <link rel="stylesheet" href="sortVisualization.css">
+</head>
+<body>
+<div id="merge-sort-container">
+    <div id="array-container"></div>
+    <div id="controls">
+        <button id="start-button" onclick="visualizeSort()">Почати</button>
+        <button id="reset-button">Скинути</button>
+        <label for="speed-input">Швидкість:</label>
+        <input type="range" id="speed-input" min="1" max="10" value="5">
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Отримання токена з локального сховища
+        const token = localStorage.getItem('token');
+        console.log(token + "toke valid");
+        if (token) {
+            // Додавання токена до заголовків запиту
+            fetch('/sort', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Валідний токен, перенаправлення користувача
+                        window.location.href = '/sort';
+                    } else {
+                        // Невалідний токен або помилка перевірки
+                        console.error('Invalid token or error checking token');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    });
+</script>
+<script src="/js/mergeSort.js"></script>
+</body>
+</html>
