@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class SortController {
 
-    @Autowired
-    SortService sortService;
-
     @GetMapping("/sort")
     public String mergeSort() {
         // Перевірка чи користувач аутентифікований
@@ -29,3 +26,7 @@ public class SortController {
 
 
 }
+
+
+//TODO
+//Зробити так щоб коли вже токен був збережений в куках, то щоб ендпоінт /login перенаправляв зарзу на контент

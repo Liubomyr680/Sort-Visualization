@@ -2,6 +2,8 @@ package com.example.imageparser.controllers;
 
 import com.example.imageparser.configuration.JWTGenerator;
 import com.example.imageparser.dto.AuthResponseDTO;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,7 +30,8 @@ public class AuthController {
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponseDTO> authenticate(
             @RequestParam("username") String username,
-                                          @RequestParam("password") String password) {
+            @RequestParam("password") String password,
+            HttpServletResponse response) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -38,9 +41,48 @@ public class AuthController {
         String token = jwtGenerator.generateToken(authentication);
 
         if (authentication.isAuthenticated()) {
+            // Додаємо токен у cookie
+
+            Cookie jwtCookie = new Cookie("jwt", token);
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setSecure(false); // Поставте true для HTTPS
+            jwtCookie.setPath("/");
+            jwtCookie.setMaxAge(60 * 60 * 24); // Задайте термін дії, наприклад, 1 день
+            response.addCookie(jwtCookie);
+
             return ResponseEntity.ok().body(new AuthResponseDTO(token));
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 }
+
+
+/*
+* public ResponseEntity<AuthResponseDTO> authenticate(
+        @RequestParam("username") String username,
+        @RequestParam("password") String password,
+        HttpServletResponse response) {
+
+    Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(username, password, Collections.emptyList()));
+
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+    // Генеруємо JWT токен
+    String token = jwtGenerator.generateToken(authentication);
+
+    if (authentication.isAuthenticated()) {
+        // Додаємо токен у cookie
+        Cookie jwtCookie = new Cookie("jwt", token);
+        jwtCookie.setHttpOnly(true);
+        jwtCookie.setSecure(false); // Поставте true для HTTPS
+        jwtCookie.setPath("/");
+        jwtCookie.setMaxAge(60 * 60 * 24); // Задайте термін дії, наприклад, 1 день
+        response.addCookie(jwtCookie);
+
+        // Повертаємо відповідь з токеном у тілі (опціонально)
+        return ResponseEntity.ok().body(new AuthResponseDTO(token));
+    } else {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }*/

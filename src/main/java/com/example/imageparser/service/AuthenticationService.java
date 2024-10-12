@@ -40,6 +40,12 @@ public class AuthenticationService {
         return userRepository.findByEmail(email);
     }
 
+    public boolean checkPassword(CustomUser user, String password) {
+        // Compare the provided password with the stored password (with hashing, if applicable)
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+
     public boolean authenticateUser(String email, String password) {
 //         Знайти користувача за електронною адресою
         CustomUser user = userRepository.findByEmail(email);

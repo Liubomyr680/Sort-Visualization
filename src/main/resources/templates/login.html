@@ -32,47 +32,47 @@
 <script src="/js/matrixAnimation.js"></script>
 <script>
 
+
+    /*
+    * document.getElementById("loginForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const form = document.getElementById("loginForm");
+
+    try {
+        // Виконання POST запиту для аутентифікації
+        const response = await fetch("/authenticate", {
+            method: "POST",
+            body: new FormData(form),
+        });
+
+        if (response.ok) {
+            // Якщо аутентифікація успішна, перенаправити на захищену сторінку
+            window.location.href = "/sort";
+        } else {
+            // Помилка аутентифікації
+            console.error("Authentication failed");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+});*/
+
     document.getElementById("loginForm").addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        const form = document.getElementById("loginForm"); // Збережіть посилання на форму
+        const form = document.getElementById("loginForm");
 
         try {
+            // Виконання POST запиту для аутентифікації
             const response = await fetch("/authenticate", {
                 method: "POST",
-                body: new FormData(form), // Використовуйте форму для створення FormData
+                body: new FormData(form),
             });
 
             if (response.ok) {
-                const data = await response.json();
-                const token = data.accessToken;
-                localStorage.setItem("token", token);
-                console.log("token saved: " + token);
-
-                // Створення заголовків з токеном доступу
-                const headers = new Headers();
-                headers.append("Authorization", `Bearer ${token}`);
-                console.log("Headers added");
-
-                // Створення запиту GET до /sort
-                const request = new Request("/sort", {
-                    method: "GET",
-                    headers,
-                });
-                console.log("Request created");
-
-                // Відправка запиту на сервер
-                const sortResponse = await fetch(request);
-                console.log("finished fetch request");
-
-                if (sortResponse.ok) {
-                    console.log(sortResponse.ok)
-                    // Перенаправлення на сторінку /sort
-                    window.location.href = "/sort";
-                } else {
-                    // Невалідний токен або помилка під час перевірки
-                    console.error("Invalid token or error checking token");
-                }
+                // Якщо аутентифікація успішна, перенаправити на захищену сторінку
+                window.location.href = "/sort";
             } else {
                 // Помилка аутентифікації
                 console.error("Authentication failed");
@@ -81,98 +81,6 @@
             console.error("Error:", error);
         }
     });
-
-    // document.getElementById("loginForm").addEventListener("submit", function (event) {
-    //     event.preventDefault();
-    //
-    //     fetch('/authenticate', {
-    //         method: 'POST',
-    //         body: new FormData(this),
-    //     })
-    //         .then(response => {
-    //             if (response.ok) {
-    //                 console.log("Still working")
-    //                 // If the response is OK (HTTP status code 200), parse the JSON body
-    //                 return response.json();
-    //             } else {
-    //                 // If the response is not OK, throw an error with the status text
-    //                 throw new Error(response.statusText);
-    //             }
-    //         })
-    //         .then(data => {
-    //             const token = data.accessToken;
-    //             console.log(token)
-    //             if (token) {
-    //                 localStorage.setItem("token", token);
-    //
-    //                 // Створення об'єкту заголовків для відправки разом із запитом
-    //                 const headers = new Headers();
-    //                 headers.append('Authorization', 'Bearer ' + token);
-    //
-    //                 // Створення об'єкту запиту
-    //                 const request = new Request('/sort', {
-    //                     method: 'GET', // Метод запиту
-    //                     headers: headers // Додавання заголовків до запиту
-    //                 });
-    //                 console.log("token already in header")
-    //
-    //                 // Відправка запиту на сервер
-    //                 fetch(request)
-    //                     .then(response => {
-    //                         console.log("We are in response loop")
-    //                         if (response.ok) {
-    //                             console.log("Ready to redirect!")
-    //                             // Валідний токен, перенаправлення користувача
-    //                             window.location.href = '/sort';
-    //                         } else {
-    //                             // Невалідний токен або помилка перевірки
-    //                             console.error('Invalid token or error checking token');
-    //                         }
-    //                     })
-    //                     .catch(error => console.error('Error:', error));
-    //             }
-    //
-    //         })
-    //         .catch(error => {
-    //             // Handle any errors that occurred during the fetch call
-    //             console.error('Error:', error);
-    //         });
-    // });
-
-    // document.getElementById("loginForm").addEventListener("submit", function(event) {
-    //     event.preventDefault();
-    //
-    //     fetch('/authenticate', {
-    //         method: 'POST',
-    //         body: new FormData(this),
-    //     })
-    //         .then(response => {
-    //             if (response.ok) {
-    //                 console.log("Still working")
-    //                 // If the response is OK (HTTP status code 200), parse the JSON body
-    //                 return response.json();
-    //             } else {
-    //                 // If the response is not OK, throw an error with the status text
-    //                 throw new Error(response.statusText);
-    //             }
-    //         })
-    //         .then(data => {
-    //             const token = data.accessToken;
-    //             console.log(token)
-    //             if(token){
-    //                 localStorage.setItem("token", token);
-    //
-    //                 // Redirect to the next page
-    //                 window.location.href = "/sort";
-    //             }
-    //
-    //         })
-    //         .catch(error => {
-    //             // Handle any errors that occurred during the fetch call
-    //             console.error('Error:', error);
-    //         });
-    // });
-
 </script>
 </body>
 </html>

@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -13,7 +15,16 @@ import java.util.Date;
 
 @Component
 public class JWTGenerator {
-    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+//    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    @Value("${jwt.secret}")
+    private String secretKeyString;
+    private Key key;
+
+    @PostConstruct
+    public void init() {
+        // Створюємо ключ з використанням секретного ключа з файлу конфігурації
+        this.key = Keys.hmacShaKeyFor(secretKeyString.getBytes());
+    }
 
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();

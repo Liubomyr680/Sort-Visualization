@@ -33,20 +33,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(authEntryPoint)
+                .exceptionHandling().authenticationEntryPoint(authEntryPoint)
                 .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/sort").authenticated()
+                        .requestMatchers("/login", "/register", "/authenticate", "/h2-console/**").permitAll()
                         .anyRequest().permitAll()
                 )
-                .formLogin()
-                .loginPage("/login")
-                .permitAll();
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+        .headers().frameOptions().sameOrigin();
 
         return http.build();
 
