@@ -13,7 +13,7 @@
 </div>
 <div class="login-container">
     <h2>Follow the white rabbit</h2>
-    <form id="loginForm" action="/authenticate" method="post">
+    <form id="loginForm">
         <div class="input-group">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
@@ -23,59 +23,43 @@
             <input type="password" id="password" name="password" required>
         </div>
         <div class="button-group">
-            <button type="submit">Login</button>
+            <button type="button" id="loginButton">Login</button>
             <button type="button" onclick="window.location.href='/register'">Register</button>
         </div>
-        <div th:if="${param.error != null}" class="error-message">Incorrect username or password. Please try again.</div>
+        <div th:if="${param.error != null}" class="error-message">
+            Incorrect username or password. Please try again.
+        </div>
     </form>
 </div>
 <script src="/js/matrixAnimation.js"></script>
 <script>
+    document.getElementById("loginButton").addEventListener("click", async () => {
+        // Отримуємо значення з полів введення
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
 
-
-    /*
-    * document.getElementById("loginForm").addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const form = document.getElementById("loginForm");
-
-    try {
-        // Виконання POST запиту для аутентифікації
-        const response = await fetch("/authenticate", {
-            method: "POST",
-            body: new FormData(form),
-        });
-
-        if (response.ok) {
-            // Якщо аутентифікація успішна, перенаправити на захищену сторінку
-            window.location.href = "/sort";
-        } else {
-            // Помилка аутентифікації
-            console.error("Authentication failed");
-        }
-    } catch (error) {
-        console.error("Error:", error);
-    }
-});*/
-
-    document.getElementById("loginForm").addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        const form = document.getElementById("loginForm");
+        // Формуємо JSON об'єкт для відправки
+        const loginDto = {
+            username: username,
+            password: password
+        };
 
         try {
-            // Виконання POST запиту для аутентифікації
+            // Виконуємо POST-запит на сервер із JSON
             const response = await fetch("/authenticate", {
                 method: "POST",
-                body: new FormData(form),
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(loginDto)
             });
 
             if (response.ok) {
-                // Якщо аутентифікація успішна, перенаправити на захищену сторінку
+                // Якщо аутентифікація успішна, переходимо на сторінку /sort
                 window.location.href = "/sort";
             } else {
-                // Помилка аутентифікації
-                console.error("Authentication failed");
+                // Відображення помилки аутентифікації
+                alert("Authentication failed. Please check your username and password.");
             }
         } catch (error) {
             console.error("Error:", error);

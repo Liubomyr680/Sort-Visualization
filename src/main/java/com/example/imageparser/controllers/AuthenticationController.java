@@ -1,12 +1,14 @@
 package com.example.imageparser.controllers;
 
+import com.example.imageparser.configuration.JWTAuthenticationFilter;
 import com.example.imageparser.configuration.JWTGenerator;
 import com.example.imageparser.models.CustomUser;
 import com.example.imageparser.service.AuthenticationService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +22,22 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
 
+    @Autowired
+    private JWTGenerator jwtGenerator;
+
+    @Autowired
+    private JWTAuthenticationFilter jwtAuthenticationFilter;
+
     @GetMapping("/login")
-    public String showLoginPage() {
+    public String showLoginPage(HttpServletRequest request, HttpServletResponse response) {
+        String token = jwtAuthenticationFilter.getJWTFromCookie(request);
+
+        if (token != null && jwtGenerator.validateToken(token)) {
+            // Якщо токен валідний, перенаправити на сторінку /sort
+            return "redirect:/sort";
+        }
+
+        // Якщо токен недійсний або відсутній, повернути сторінку логіну
         return "login";
     }
 

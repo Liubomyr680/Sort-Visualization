@@ -1,8 +1,5 @@
 package com.example.imageparser.controllers;
 
-import com.example.imageparser.service.SortService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,8 +20,6 @@ public class SortController {
             return "redirect:/login"; // Наприклад, перенаправлення на сторінку входу
         }
     }
-
-
 }
 
 
