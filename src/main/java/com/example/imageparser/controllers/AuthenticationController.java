@@ -5,7 +5,6 @@ import com.example.imageparser.configuration.JWTGenerator;
 import com.example.imageparser.models.CustomUser;
 import com.example.imageparser.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +18,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AuthenticationController {
 
-    @Autowired
-    private AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
+    private final JWTGenerator jwtGenerator;
+    private final JWTAuthenticationFilter jwtAuthenticationFilter;
 
     @Autowired
-    private JWTGenerator jwtGenerator;
-
-    @Autowired
-    private JWTAuthenticationFilter jwtAuthenticationFilter;
+    public AuthenticationController (AuthenticationService authenticationService,
+                                                          JWTGenerator jwtGenerator,
+                                                          JWTAuthenticationFilter jwtAuthenticationFilter) {
+        this.authenticationService = authenticationService;
+        this.jwtGenerator = jwtGenerator;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
 
     @GetMapping("/login")
-    public String showLoginPage(HttpServletRequest request, HttpServletResponse response) {
+    public String showLoginPage(HttpServletRequest request) {
         String token = jwtAuthenticationFilter.getJWTFromCookie(request);
 
         if (token != null && jwtGenerator.validateToken(token)) {

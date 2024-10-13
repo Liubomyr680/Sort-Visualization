@@ -20,15 +20,31 @@ import java.io.IOException;
 @Component
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
+    private final JWTGenerator tokenGenerator;
+    private final CustomUserDetails customUserDetailsService;
+
     @Autowired
-    private JWTGenerator tokenGenerator;
-    @Autowired
-    private CustomUserDetails customUserDetailsService;
+    public JWTAuthenticationFilter(JWTGenerator tokenGenerator, CustomUserDetails customUserDetails) {
+        this.tokenGenerator = tokenGenerator;
+        this.customUserDetailsService = customUserDetails;
+    }
 
 
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
+
+        // Отримання поточного URI запиту
+        String requestURI = request.getRequestURI();
+
+        // Пропускаємо запити на загальнодоступні сторінки або статичні ресурси
+        if (isPublicEndpoint(requestURI) || isStaticResource(requestURI)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+
+
         // Отримання JWT токену з cookie
         String token = getJWTFromCookie(request);
 
@@ -44,6 +60,17 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    // Метод для перевірки, чи є запит на статичний ресурс
+    private boolean isStaticResource(String uri) {
+        return uri.startsWith("/css/") || uri.startsWith("/js/") || uri.startsWith("/images/") ||
+                uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".png") || uri.endsWith(".jpg");
+    }
+
+    // Метод для перевірки, чи є запит публічним ендпоінтом
+    private boolean isPublicEndpoint(String uri) {
+        return uri.equals("/login") || uri.equals("/register") || uri.equals("/authenticate");
     }
 
     public String getJWTFromCookie(HttpServletRequest request) {
