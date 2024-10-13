@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <link rel="stylesheet" href="loginPage.css">
+    <link rel="stylesheet" href="rabbitAnimation.css"> <!-- Додаємо стилі для зайця -->
 </head>
 <body>
 <div class="matrix-container">
     <div class="symbol">0</div>
     <div class="symbol">1</div>
 </div>
+
+<!-- Анімація зайця -->
+<div class="rabbit-container">
+    <img id="runningRabbit" src="https://media.tenor.com/c31tSv9pXkcAAAAi/go-out-outdoor-activities.gif" alt="Running Rabbit">
+</div>
+
 <div class="login-container">
     <h2>Follow the white rabbit</h2>
     <form id="loginForm">
@@ -32,39 +39,7 @@
     </form>
 </div>
 <script src="/js/matrixAnimation.js"></script>
-<script>
-    document.getElementById("loginButton").addEventListener("click", async () => {
-        // Отримуємо значення з полів введення
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-
-        // Формуємо JSON об'єкт для відправки
-        const loginDto = {
-            username: username,
-            password: password
-        };
-
-        try {
-            // Виконуємо POST-запит на сервер із JSON
-            const response = await fetch("/authenticate", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(loginDto)
-            });
-
-            if (response.ok) {
-                // Якщо аутентифікація успішна, переходимо на сторінку /sort
-                window.location.href = "/sort";
-            } else {
-                // Відображення помилки аутентифікації
-                alert("Authentication failed. Please check your username and password.");
-            }
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    });
-</script>
+<!--<script src="/js/rabbitInteraction.js"></script> &lt;!&ndash; Додаємо окремий скрипт для взаємодії зайця і символів &ndash;&gt;-->
+<script src="/js/loginHandler.js"></script> <!-- Додаємо окремий скрипт для обробки логіну -->
 </body>
 </html>

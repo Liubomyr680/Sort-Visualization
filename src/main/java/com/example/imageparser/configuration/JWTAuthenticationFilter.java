@@ -43,8 +43,6 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-
-
         // Отримання JWT токену з cookie
         String token = getJWTFromCookie(request);
 

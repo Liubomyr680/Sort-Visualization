@@ -1,105 +1,37 @@
-/*body {*/
-/*    font-family: Arial, sans-serif;*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*    background-color: #f0f0f0;*/
-/*}*/
-
-/*.login-container {*/
-/*    width: 300px;*/
-/*    margin: 100px auto;*/
-/*    padding: 20px;*/
-/*    background-color: #fff;*/
-/*    border-radius: 5px;*/
-/*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
-/*}*/
-
-/*h2 {*/
-/*    text-align: center;*/
-/*    margin-bottom: 20px;*/
-/*}*/
-
-/*.input-group {*/
-/*    margin-bottom: 15px;*/
-/*}*/
-
-/*.input-group label {*/
-/*    display: block;*/
-/*    margin-bottom: 5px;*/
-/*}*/
-
-/*.input-group input {*/
-/*    width: 100%;*/
-/*    padding: 8px;*/
-/*    border-radius: 5px;*/
-/*    border: 1px solid #ccc;*/
-/*}*/
-
-/*.button-group {*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*}*/
-
-/*button {*/
-/*    width: 45%;*/
-/*    padding: 10px;*/
-/*    background-color: #007bff;*/
-/*    color: #fff;*/
-/*    border: none;*/
-/*    border-radius: 5px;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*button:hover {*/
-/*    background-color: #0056b3;*/
-/*}*/
-
-/*.pulse {*/
-/*    width: 150px; !* Збільшуємо ширину кнопки *!*/
-/*    height: 50px;*/
-/*    background-color: #3498db;*/
-/*    border-radius: 10px; !* Заокругленість кутів *!*/
-/*    animation: pulseAnimation 1s infinite alternate;*/
-/*}*/
-
-/*@keyframes pulseAnimation {*/
-/*    0% {*/
-/*        transform: scale(1);*/
-/*    }*/
-/*    100% {*/
-/*        transform: scale(1.1);*/
-/*    }*/
-/*}*/
-
-/*#matrix {*/
-/*    position: absolute;*/
-/*    top: 0;*/
-/*    left: 0;*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*    overflow: hidden;*/
-/*    pointer-events: none;*/
-/*}*/
-
-/*.symbol {*/
-/*    color: lime;*/
-/*    font-family: "Courier New", Courier, monospace;*/
-/*    font-size: 20px;*/
-/*    position: absolute;*/
-/*    animation: fall 5s linear infinite;*/
-/*}*/
-
-/*@keyframes fall {*/
-/*    0% { transform: translateY(-100px); }*/
-/*    100% { transform: translateY(100vh); }*/
-/*}*/
-
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
     overflow: hidden;
     background-color: #000; /* Чорний колір фону */
+}
+
+
+/* Анімація зайця */
+.rabbit-container {
+    position: fixed;
+    bottom: 70%;
+    width: 120px;
+    height: 120px;
+    z-index: 3; /* Поставте більше значення z-index, щоб зайчик був поверх інших елементів */
+    animation: runAcross 10s linear infinite;
+}
+
+@keyframes runAcross {
+    0% {
+        right: -120px; /* Початок за лівим краєм екрану */
+    }
+    50% {
+        transform: scaleX(1); /* Повернення в нормальний напрямок */
+    }
+    100% {
+        right: 100vw; /* Закінчується за правим краєм екрану */
+    }
+}
+
+#runningRabbit {
+    width: 100%; /* Ширина зайця дорівнює ширині контейнера */
+    height: auto;
 }
 
 .matrix-container {
@@ -109,6 +41,7 @@ body {
     width: 100%;
     height: 100%;
     pointer-events: none;
+    z-index: 1; /* Зробити матрицю нижчою, ніж зайць і контент форми */
 }
 
 .symbol {
@@ -131,13 +64,12 @@ body {
 
 .login-container {
     position: absolute;
-    top: 25%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    color: #fff; /* Білий колір тексту */
-    z-index: 1;
-
+    color: #fff;
+    z-index: 3; /* Контент має найвищий пріоритет */
 }
 
 .login-container h2 {
@@ -152,28 +84,26 @@ body {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #fff; /* Білий колір тексту */
-    animation: pulse 1.5s infinite alternate; /* Пульсація кольору */
+    color: #fff;
+    animation: pulse 1.5s infinite alternate;
 }
 
 @keyframes pulse {
     0% {
-        color: #000; /* Початковий колір */
-        border-color: #000; /* Початковий колір рамки */
+        color: #000;
     }
     100% {
-        color: #fff; /* Кінцевий колір */
-        border-color: #fff; /* Кінцевий колір рамки */
+        color: #fff;
     }
 }
 
 .input-group input {
     width: 100%;
     padding: 8px;
-    border: 2px solid transparent; /* Транспарентна рамка */
+    border: 2px solid transparent;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.1); /* Колір фону з прозорістю */
-    color: #fff; /* Білий колір тексту */
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
 }
 
 .input-group input:focus {
@@ -182,16 +112,15 @@ body {
 
 .button-group button {
     padding: 10px 20px;
-    border: 2px solid lime; /* Колір рамки */
+    border: 2px solid lime;
     border-radius: 5px;
-    background-color: transparent; /* Прозорий фон */
-    color: lime; /* Колір тексту */
+    background-color: transparent;
+    color: lime;
     cursor: pointer;
-    transition: all 0.3s ease; /* Плавна анімація зміни стилів */
+    transition: all 0.3s ease;
 }
 
 .button-group button:hover {
-    background-color: lime; /* Колір фону при наведенні */
-    color: #000; /* Колір тексту при наведенні */
-
+    background-color: lime;
+    color: #000;
 }
