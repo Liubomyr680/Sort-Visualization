@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy WAR app to Azure Web App - SortVisualization
+name: Build and deploy JAR app to Azure Web App - SortVisualization
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -29,17 +29,17 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.war'
+          path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
-
+  
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
@@ -49,9 +49,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_E07DF74DFB1C462A9B962C0E6B0300EC }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_BFE4CC29E79449DEB29D5464B1E4F549 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_5ECBCE1879194C60AB3A5B405E7BCDC5 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_47DD42353FEA45878853C072D77F81CD }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_0155F4609BBE4D29BCDFF32285210C03 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_0B59E7FB036545CE9F33ACC1515C1051 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -59,5 +59,5 @@ jobs:
         with:
           app-name: 'SortVisualization'
           slot-name: 'Production'
-          package: '*.war'
+          package: '*.jar'
           
