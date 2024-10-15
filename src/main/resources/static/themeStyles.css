@@ -1,0 +1,54 @@
+/* Стиль для світлої теми */
+body.light-theme {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+body.light-theme .bar {
+    background-color: dodgerblue; /* Колір стовпчика в світлій темі */
+}
+
+body.light-theme .bar.selected {
+    background-color: red; /* Колір обраних стовпчиків в світлій темі */
+}
+
+body.light-theme #controls button {
+    background-color: dodgerblue;
+}
+
+body.light-theme #controls button:hover {
+    background-color: #007bb5; /* Зміна кольору кнопки при наведенні */
+}
+
+#description-container {
+    background-color: #f0f0f0; /* Фон для світлої теми */
+    color: #000000;
+}
+
+/* Стиль для темної теми */
+body.dark-theme {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+body.dark-theme .bar {
+    background-color: #90ee90; /* Світло-зелений колір стовпчика в темній темі */
+}
+
+body.dark-theme .bar.selected {
+    background-color: #ff8c00; /* Помаранчевий колір обраних стовпчиків в темній темі */
+}
+
+body.dark-theme #controls button {
+    background-color: #90ee90;
+    color: #000000;
+}
+
+body.dark-theme #controls button:hover {
+    background-color: #66c266; /* Зміна кольору кнопки при наведенні в темній темі */
+}
+
+body.dark-theme #description-container {
+    background-color: #333333;
+    color: #ffffff;
+}

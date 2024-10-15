@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,7 +48,9 @@ public class AuthenticationController {
     }
 
     @GetMapping("/logout")
-    public String logout(HttpServletResponse response) {
+    public ResponseEntity<String> logout(HttpServletResponse response) {
+        System.out.println("Logout endpoint accessed");
+
         // Створюємо кукі з таким же ім'ям, але з порожнім значенням та минулою датою для видалення
         Cookie jwtCookie = new Cookie("jwt", null);
         jwtCookie.setPath("/");
@@ -55,8 +58,8 @@ public class AuthenticationController {
         jwtCookie.setMaxAge(0); // Встановлюємо час життя на 0, щоб видалити кукі
         response.addCookie(jwtCookie);
 
-        // Перенаправлення на сторінку логіну
-        return "redirect:/login";
+        // Повертаємо статус успішного виходу з системи
+        return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
     }
 
     @GetMapping("/register")

@@ -6,36 +6,8 @@ body {
     transition: background-color 0.5s, color 0.5s;
     display: flex;
     justify-content: flex-start;
-    padding: 20px;
+    /*padding: 20px;*/
     box-sizing: border-box;
-}
-
-/* Світла тема */
-body.light-theme {
-    background-color: #ffffff;
-    color: #000000;
-}
-
-body.light-theme .bar {
-    background-color: dodgerblue; /* Колір стовпчика в світлій темі */
-}
-
-body.light-theme .bar.selected {
-    background-color: red; /* Колір обраних стовпчиків в світлій темі */
-}
-
-/* Темна тема */
-body.dark-theme {
-    background-color: #1e1e1e;
-    color: #ffffff;
-}
-
-body.dark-theme .bar {
-    background-color: #90ee90; /* Світло-зелений колір стовпчика в темній темі */
-}
-
-body.dark-theme .bar.selected {
-    background-color: #ff8c00; /* Помаранчевий колір обраних стовпчиків в темній темі */
 }
 
 #main-container {
@@ -45,7 +17,7 @@ body.dark-theme .bar.selected {
     gap: 40px; /* Збільшено проміжок для розділення контейнерів */
     height: 100vh; /* Висота для заповнення всього екрану */
     width: 100%; /* Додаємо ширину для того, щоб контейнер займав всю ширину екрану */
-    padding: 20px;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -66,6 +38,10 @@ body.dark-theme .bar.selected {
     gap: 1px; /* Проміжок між елементами масиву */
     width: 100%;
     align-items: flex-start;
+    margin-top: 0; /* Прибираємо будь-які відступи зверху */
+    height: 100%; /* Задаємо висоту контейнера масиву, щоб він займав всю висоту контейнера */
+    box-sizing: border-box;
+    padding-top: 0; /* Видаляємо будь-які падінги зверху */
 }
 
 /* Елементи стовпців */
@@ -76,6 +52,7 @@ body.dark-theme .bar.selected {
     transition: background-color 0.5s; /* Плавна зміна кольору */
 }
 
+/* Стиль контролів */
 #controls {
     margin-top: 20px;
 }
@@ -85,29 +62,10 @@ body.dark-theme .bar.selected {
     padding: 8px 16px;
     border: none;
     border-radius: 4px;
-    background-color: dodgerblue;
+    background-color: dodgerblue; /* Видалено стилі для теми, використовуйте themeStyles.css */
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
-}
-
-/* Стилі для кнопок в світлій темі */
-body.light-theme #controls button {
-    background-color: dodgerblue;
-}
-
-body.light-theme #controls button:hover {
-    background-color: #007bb5; /* Зміна кольору кнопки при наведенні */
-}
-
-/* Стилі для кнопок в темній темі */
-body.dark-theme #controls button {
-    background-color: #90ee90;
-    color: #000000;
-}
-
-body.dark-theme #controls button:hover {
-    background-color: #66c266; /* Зміна кольору кнопки при наведенні в темній темі */
 }
 
 /* Стиль для повзунка швидкості */
@@ -122,15 +80,7 @@ body.dark-theme #controls button:hover {
     max-width: 400px; /* Максимальна ширина для кращого вигляду */
     padding: 20px;
     border-radius: 8px;
-    background-color: #f0f0f0; /* Фон для світлої теми */
-    color: #000000;
     transition: background-color 0.5s, color 0.5s; /* Плавна зміна теми */
-}
-
-/* Темна тема для опису */
-body.dark-theme #description-container {
-    background-color: #333333;
-    color: #ffffff;
 }
 
 /* Стилі для тексту опису */
