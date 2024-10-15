@@ -47,6 +47,12 @@ public class SecurityConfig {
                                 .requestMatchers("/sort").authenticated()
                                 .anyRequest().permitAll()
                 )
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // Використовуйте ваш власний URL для логауту
+                        .logoutSuccessUrl("/login") // Перенаправлення після логауту
+                        .invalidateHttpSession(true)
+                        .deleteCookies("jwt") // Видалити jwt кукі
+                )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
 

@@ -4,7 +4,9 @@ import com.example.imageparser.configuration.JWTAuthenticationFilter;
 import com.example.imageparser.configuration.JWTGenerator;
 import com.example.imageparser.models.CustomUser;
 import com.example.imageparser.service.AuthenticationService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +44,19 @@ public class AuthenticationController {
 
         // Якщо токен недійсний або відсутній, повернути сторінку логіну
         return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        // Створюємо кукі з таким же ім'ям, але з порожнім значенням та минулою датою для видалення
+        Cookie jwtCookie = new Cookie("jwt", null);
+        jwtCookie.setPath("/");
+        jwtCookie.setHttpOnly(true);
+        jwtCookie.setMaxAge(0); // Встановлюємо час життя на 0, щоб видалити кукі
+        response.addCookie(jwtCookie);
+
+        // Перенаправлення на сторінку логіну
+        return "redirect:/login";
     }
 
     @GetMapping("/register")

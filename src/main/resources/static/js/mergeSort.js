@@ -1,11 +1,15 @@
 const arrayContainer = document.getElementById('array-container');
-const startButton = document.getElementById('start-button');
 const resetButton = document.getElementById('reset-button');
 const speedInput = document.getElementById('speed-input');
 
 let array = [];
 let bars = [];
-let animationspeed = 15;
+let animationspeed = 150 / speedInput.value; // Ініціалізація швидкості
+
+// Слухач для зміни швидкості
+speedInput.addEventListener('input', function () {
+    animationspeed = 150 / speedInput.value; // Оновлення швидкості
+});
 
 function generateRandomArray() {
     array = [];
@@ -16,6 +20,7 @@ function generateRandomArray() {
 
 function createBars() {
     bars = [];
+    arrayContainer.innerHTML = ''; // Очищаємо контейнер перед створенням нових стовпців
     let i = 0;
     const interval = setInterval(() => {
         if (i === array.length) {
@@ -41,6 +46,7 @@ async function mergeArray(start, mid, end) {
         bars[i].style.backgroundColor = 'green';
     }
 }
+
 async function merge2Array(start, mid, end) {
     let orgarr = [];
     let i = start;
@@ -80,12 +86,16 @@ async function mergeSort(start, end) {
         await mergeArray(start, mid, end);
     }
 }
+
 generateRandomArray();
 createBars();
+
 async function visualizeSort() {
     await mergeSort(0, array.length - 1);
 }
 
-
-
-
+// Додаємо функціонал для кнопки "Скинути", щоб скинути масив і стовпці
+resetButton.addEventListener('click', function () {
+    generateRandomArray();
+    createBars();
+});

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,41 +8,65 @@
     <link rel="stylesheet" href="sortVisualization.css">
 </head>
 <body>
-<div id="merge-sort-container">
-    <div id="array-container"></div>
-    <div id="controls">
-        <button id="start-button" onclick="visualizeSort()">Почати</button>
-        <button id="reset-button">Скинути</button>
-        <label for="speed-input">Швидкість:</label>
-        <input type="range" id="speed-input" min="1" max="10" value="5">
+<div id="main-container">
+    <div id="merge-sort-container">
+        <!-- Основний контейнер для візуалізації -->
+        <div id="array-container"></div>
+        <div id="controls">
+            <button id="start-button" onclick="visualizeSort()">Почати</button>
+            <button id="reset-button">Скинути</button>
+            <label for="speed-input">Швидкість:</label>
+            <input type="range" id="speed-input" min="1" max="10" value="5">
+            <button id="logout-button" onclick="logout()">Logout</button>
+            <button id="theme-toggle-button">Світла/Темна тема</button>
+        </div>
+    </div>
+
+    <!-- Опис алгоритму -->
+    <div id="description-container">
+        <h2>Алгоритм сортування злиттям</h2>
+        <p>
+            Алгоритм сортування злиттям (Merge Sort) є одним із найефективніших методів сортування, який працює за принципом "розділяй та володарюй". Він ділить масив на менші частини, сортує ці частини окремо, а потім об'єднує їх у один відсортований масив.
+        </p>
+        <p>Як працює алгоритм:</p>
+        <ol>
+            <li><strong>Поділ:</strong> Масив розбивається на дві рівні частини, доки кожен підмасив не стане розміром один елемент. Елемент розміром один вважається вже відсортованим.</li>
+            <li><strong>Рекурсія:</strong> Рекурсивно викликається функція сортування для кожної з частин, продовжуючи поділ доти, доки всі частини не стануть достатньо малими.</li>
+            <li><strong>Злиття:</strong> Дві відсортовані частини зливаються в один відсортований масив, порівнюючи елементи між собою і розташовуючи їх у порядку зростання.</li>
+        </ol>
+        <p>
+            Приклад: Якщо у вас є масив чисел [8, 3, 1, 7, 0, 10, 2], алгоритм спочатку розділить його на підмасиви: [8, 3, 1] та [7, 0, 10, 2]. Потім кожен підмасив знову буде розбитий, доки не залишаться окремі елементи. Після цього відбувається процес злиття, де окремі елементи об'єднуються, утворюючи відсортовані підмасиви, і зрештою повністю відсортований масив [0, 1, 2, 3, 7, 8, 10].
+        </p>
+        <p>
+            Сортування злиттям має ефективність O(n log n) для найгіршого, найкращого і середнього випадків, що робить його дуже потужним для роботи з великими наборами даних. Його основна перевага в тому, що він має стабільну складність незалежно від того, чи дані майже впорядковані, чи ні.
+        </p>
+        <p>
+            Цей алгоритм підходить для великих обсягів даних, але потребує додаткової пам'яті для зберігання підмасивів, тому для невеликих масивів може бути менш ефективним у порівнянні з іншими алгоритмами сортування, такими як Bubble Sort або Insertion Sort.
+        </p>
+        <p>
+            Суть роботи алгоритму полягає в тому, щоб рекурсивно розділяти масив на менші підмасиви і поступово з'єднувати їх у відсортований результат, зберігаючи елементи в належному порядку.
+        </p>
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Отримання токена з локального сховища
-        const token = localStorage.getItem('token');
-        console.log(token + "toke valid");
-        if (token) {
-            // Додавання токена до заголовків запиту
-            fetch('/sort', {
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
-            })
-                .then(response => {
-                    if (response.ok) {
-                        // Валідний токен, перенаправлення користувача
-                        window.location.href = '/sort';
-                    } else {
-                        // Невалідний токен або помилка перевірки
-                        console.error('Invalid token or error checking token');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        }
-    });
-</script>
 <script src="/js/mergeSort.js"></script>
+<script src="/js/themeToggle.js"></script> <!-- Скрипт для зміни теми -->
+
+<script>
+    // Отримуємо елементи
+    const speedInput = document.getElementById('speed-input');
+    let speedMultiplier = 5; // Значення за замовчуванням
+
+    // Функція для оновлення швидкості
+    speedInput.addEventListener('input', function () {
+        speedMultiplier = parseInt(speedInput.value);
+    });
+
+    // Функція для затримки
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+</script>
+
 </body>
 </html>

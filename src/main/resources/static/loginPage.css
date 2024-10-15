@@ -10,7 +10,7 @@ body {
 /* Анімація зайця */
 .rabbit-container {
     position: fixed;
-    bottom: 70%;
+    bottom: 60%;
     width: 120px;
     height: 120px;
     z-index: 3; /* Поставте більше значення z-index, щоб зайчик був поверх інших елементів */
